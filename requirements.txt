@@ -1,0 +1,3 @@
+websockets
+setuptools
+gputil
