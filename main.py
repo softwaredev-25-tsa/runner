@@ -11,7 +11,7 @@ import uuid
 gpuMaxLoad = 0.5 # 50% load
 fileResultPath = 'file_result.json' # constant path for file result
 url = 'ws://localhost:8080/exchange/connect' # websocket URL (currently placeholder)
-token = uuid.uuid4()
+token = str(uuid.uuid4())
 dockerBuilt = None
 
 # func for sending GPU info every 30 minutes
@@ -110,7 +110,6 @@ async def messageHandler(data, websocket):
 # returns dict with results of file
 async def runFile(path):
     logging.debug("starting runFile()")
-    print("starting run...")
     try:
         if path.endswith('.py'):
             logging.debug("path ends with .py")
@@ -175,9 +174,7 @@ async def main():
         logging.debug(f"Connecting to websocket at {url}")
         async with websockets.connect(url) as websocket:
             logging.debug(f"connected to websocket: {websocket}")
-            print(f"Connected to websocket: {websocket}")
             logging.info("starting send() and listen()")
-            print(f"starting send() and listen()")
             await asyncio.gather(send(websocket), listen(websocket))
     except Exception as err:
         logging.error("Websocket error: %s" % err)
@@ -201,5 +198,4 @@ if __name__ == "__main__":
     logging.getLogger(__name__)
     logging.basicConfig(filename='logs/logs.log', level=logging.INFO)
     logging.debug("Starting main()")
-    print(dockerBuilt)
     asyncio.run(main())
